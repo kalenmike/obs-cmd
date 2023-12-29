@@ -94,6 +94,14 @@ pub enum SceneAction {
     },
 }
 
+#[derive(Subcommand)]
+pub enum StudioModeAction {
+    Enable,
+    Disable,
+    Toggle,
+    Status
+}
+
 #[derive(Parser)]
 #[clap(author, version, about, long_about = None)]
 pub struct Cli {
@@ -108,30 +116,6 @@ pub struct Cli {
 #[derive(Subcommand)]
 pub enum Commands {
     Info,
-    Scene {
-        #[clap(subcommand)]
-        action: SceneAction,
-    },
-    SceneCollection {
-        switch_placeholder: String, // NOTE: just for args positioning
-        scene_collection_name: String,
-    },
-
-    #[clap(subcommand)]
-    Replay(Replay),
-
-    #[clap(subcommand)]
-    VirtualCamera(VirtualCamera),
-
-    #[clap(subcommand)]
-    Streaming(Streaming),
-
-    #[clap(subcommand)]
-    Recording(Recording),
-
-    ToggleMute {
-        device: String,
-    },
 
     Filter {
         command: String,
@@ -139,10 +123,40 @@ pub enum Commands {
         filter: String,
     },
 
+    Scene {
+        #[clap(subcommand)]
+        action: SceneAction,
+    },
+
+    SceneCollection {
+        switch_placeholder: String, // NOTE: just for args positioning
+        scene_collection_name: String,
+    },
+
     SceneItem {
         command: String,
         scene: String,
         source: String,
-    }
+    },
 
+    #[clap(subcommand)]
+    Streaming(Streaming),
+
+    StudioMode {
+        #[clap(subcommand)]
+        action: StudioModeAction,
+    },
+
+    #[clap(subcommand)]
+    Recording(Recording),
+
+    #[clap(subcommand)]
+    Replay(Replay),
+
+    ToggleMute {
+        device: String,
+    },
+
+    #[clap(subcommand)]
+    VirtualCamera(VirtualCamera)
 }

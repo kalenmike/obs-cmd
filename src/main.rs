@@ -56,6 +56,33 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             println!("Version: {:?}", version);
         }
 
+        Commands::StudioMode { action } => match action {
+            StudioModeAction::Enable => {
+                let res = client.ui().set_studio_mode_enabled(true).await;
+                println!("Enable Studio Mode");
+                println!("Result: {:?}", res);
+            }
+            StudioModeAction::Disable => {
+                let res = client.ui().set_studio_mode_enabled(false).await;
+                println!("Disable Studio Mode");
+                println!("Scene: {:?}", res);
+            }
+            StudioModeAction::Toggle => {
+                let state = client.ui().studio_mode_enabled().await?;
+                let res = if state {
+                    client.ui().set_studio_mode_enabled(false).await?;
+                } else {
+                    client.ui().set_studio_mode_enabled(true).await?;
+                };
+                println!("Toggle Studio Mode: {}", if state { "Disabled" } else { "Enabled" });
+                println!("Result: {:?}", res);
+            }
+            StudioModeAction::Status => {
+                let res = client.ui().studio_mode_enabled().await?;
+                println!("Studio Mode: {:?}", res);
+            }
+        },
+
         Commands::Recording(action) => {
             use Recording::*;
             println!("Recording {:?}", action);
