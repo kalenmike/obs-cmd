@@ -21,6 +21,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     match &cli.command {
         Commands::Scene { action } => match action {
+            SceneAction::Preview{ scene_name } => {
+                let res = client.scenes().set_current_preview_scene(scene_name).await;
+                println!("Switched preview to scene: {:?}", scene_name);
+                println!("Result: {:?}", res);
+            }
             SceneAction::Get => {
                 let res = client.scenes().current_program_scene().await?;
                 println!("Scene: {:?}", res);
