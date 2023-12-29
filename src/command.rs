@@ -99,6 +99,11 @@ pub enum StudioModeAction {
     Status
 }
 
+#[derive(Subcommand)]
+pub enum InputAction {
+    List
+}
+
 #[derive(Parser)]
 #[clap(author, version, about, long_about = None)]
 pub struct Cli {
@@ -134,6 +139,11 @@ pub enum Commands {
         command: String,
         scene: String,
         source: String,
+    },
+
+    Input {
+        #[clap(subcommand)]
+        action: InputAction,
     },
 
     #[clap(subcommand)]

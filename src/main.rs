@@ -21,6 +21,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
 
     match &cli.command {
+        Commands::Input { action } => match action {
+            InputAction::List => {
+                let res = client.inputs().list(None).await?;
+                println!("Inputs: {:?}", res);
+            }
+        },
+
         Commands::Scene { action } => match action {
             SceneAction::Get => {
                 let active_scene = client.scenes().current_program_scene().await?;
