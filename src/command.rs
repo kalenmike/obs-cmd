@@ -81,6 +81,15 @@ pub enum Recording {
     Toggle,
 }
 
+// Define the SceneAction enum for different scene actions
+#[derive(Subcommand)]
+pub enum SceneAction {
+    Switch {
+        scene_name: String,
+    },
+    List,
+}
+
 #[derive(Parser)]
 #[clap(author, version, about, long_about = None)]
 pub struct Cli {
@@ -96,8 +105,8 @@ pub struct Cli {
 pub enum Commands {
     Info,
     Scene {
-        switch_placeholder: String, // NOTE: just for args positioning
-        scene_name: String,
+        #[clap(subcommand)]
+        action: SceneAction,
     },
     SceneCollection {
         switch_placeholder: String, // NOTE: just for args positioning
