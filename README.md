@@ -43,7 +43,7 @@ obs-cmd [options] [command] [options] [arguments]
 | ---------------- | ------- | ------------------------------ |
 | info             | -       |                                |
 | scene            | switch  | [scene-name]                   |
-|                  |         | @cam-front                     |
+|                  | list    |                                |
 | scene-collection | switch  | [collection-name]              |
 | scene-item       | toggle  | [scene-name] [scene-item-name] |
 | toggle-mute      | switch  | [device-name]                  |
