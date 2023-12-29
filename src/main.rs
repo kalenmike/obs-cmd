@@ -123,6 +123,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     println!("Recording toggled");
                     println!("Result: {:?}", res);
                 }
+                Status => {
+                    let res = client.recording().status().await?;
+                    println!("Result: {:?}", res);
+                }
             }
         }
 
@@ -146,6 +150,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     println!("Streaming toggled");
                     println!("Result: {:?}", res);
                 }
+                Status => {
+                    let res = client.streaming().status().await?;
+                    println!("Result: {:?}", res);
+                }
             }
         }
 
@@ -164,6 +172,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 }
                 Toggle => {
                     let res = client.virtual_cam().toggle().await?;
+                    println!("Result: {:?}", res);
+                }
+                Status => {
+                    let res = client.virtual_cam().status().await?;
                     println!("Result: {:?}", res);
                 }
             }
@@ -192,6 +204,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 Save => {
                     let res = client.replay_buffer().save().await;
                     println!("Buffer saved");
+                    println!("Result: {:?}", res);
+                }
+                Status => {
+                    let res = client.replay_buffer().status().await?;
+                    println!("Replay Buffer status");
+                    println!("Result: {:?}", res);
+                }
+                LastFile => {
+                    let res = client.replay_buffer().last_replay().await?;
+                    println!("Replay Buffer last file name");
                     println!("Result: {:?}", res);
                 }
             }

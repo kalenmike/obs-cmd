@@ -58,6 +58,8 @@ pub enum Replay {
     Stop,
     Toggle,
     Save,
+    Status,
+    LastFile
 }
 
 #[derive(Subcommand, Clone, Debug)]
@@ -65,6 +67,7 @@ pub enum VirtualCamera {
     Start,
     Stop,
     Toggle,
+    Status,
 }
 
 #[derive(Subcommand, Clone, Debug)]
@@ -72,6 +75,7 @@ pub enum Streaming {
     Start,
     Stop,
     Toggle,
+    Status,
 }
 
 #[derive(Subcommand, Clone, Debug)]
@@ -79,6 +83,7 @@ pub enum Recording {
     Start,
     Stop,
     Toggle,
+    Status,
 }
 
 // Define the SceneAction enum for different scene actions
