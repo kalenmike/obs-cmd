@@ -84,10 +84,11 @@ pub enum Recording {
 // Define the SceneAction enum for different scene actions
 #[derive(Subcommand)]
 pub enum SceneAction {
+    Get,
+    List,
     Switch {
         scene_name: String,
     },
-    List,
 }
 
 #[derive(Parser)]
