@@ -84,9 +84,6 @@ pub enum Recording {
 // Define the SceneAction enum for different scene actions
 #[derive(Subcommand)]
 pub enum SceneAction {
-    Preview {
-        scene_name: String,
-    },
     Get,
     List,
     Switch {

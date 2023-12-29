@@ -22,11 +22,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     match &cli.command {
         Commands::Scene { action } => match action {
-            SceneAction::Preview{ scene_name } => {
-                let res = client.scenes().set_current_preview_scene(scene_name).await;
-                println!("Switched preview to scene: {:?}", scene_name);
-                println!("Result: {:?}", res);
-            }
             SceneAction::Get => {
                 let active_scene = client.scenes().current_program_scene().await?;
 
@@ -37,8 +32,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 };
 
                 let combined_json = json!({
-                    "program": active_scene,
-                    "preview": studio_scene
+                    "current_program_scene_name:": active_scene,
+                    "current_preview_scene_name:": studio_scene
                 });
 
                 println!("Scenes: {}", combined_json.to_string());
@@ -48,8 +43,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 println!("Scenes: {:?}", res);
             }
             SceneAction::Switch { scene_name } => {
-                let res = client.scenes().set_current_program_scene(scene_name).await;
-                println!("Switched to scene: {}", scene_name);
+                let state = client.ui().studio_mode_enabled().await?;
+                let res = if state {
+                    client.scenes().set_current_program_scene(scene_name).await?;
+                } else {
+                    client.scenes().set_current_program_scene(scene_name).await?;
+                };
+                println!("Switched {} to scene: {}", if state { "preview" } else { "program" }, scene_name);
                 println!("Result: {:?}", res);
             }
         },
