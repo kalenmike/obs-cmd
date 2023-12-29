@@ -5,6 +5,7 @@ use clap::Parser;
 use obws::{requests::filters::SetEnabled as SetEnabledFilter, Client};
 use obws::requests::scene_items::SetEnabled as SetEnabledItem;
 use obws::requests::scene_items::Id as IdItem;
+use serde_json::json;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -27,8 +28,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 println!("Result: {:?}", res);
             }
             SceneAction::Get => {
-                let res = client.scenes().current_program_scene().await?;
-                println!("Scene: {:?}", res);
+                let active_scene = client.scenes().current_program_scene().await?;
+
+                let studio_scene_result = client.scenes().current_preview_scene().await;
+                let studio_scene = match studio_scene_result {
+                    Ok(scene) => scene,
+                    Err(_) => "".to_string(), // Studio mode is disabled
+                };
+
+                let combined_json = json!({
+                    "program": active_scene,
+                    "preview": studio_scene
+                });
+
+                println!("Scenes: {}", combined_json.to_string());
             }
             SceneAction::List => {
                 let res = client.scenes().list().await?;
